@@ -14,11 +14,18 @@ var clientInfo = {};
 
 io.on('connection', (socket) => {
 
+    // Sends the welcome message to the player when joined 
+    socket.emit('message', {
+        text: 'Welcome to the game!',
+        name: 'System',
+        timestamp: moment().valueOf()
+    });
+
     // User just connected to the landing page
     socket.on('welcome', () => {
-        // Tells the user the active room has user joined
+        // Tells the user the active game has user joined
         io.emit('activeRoom', {
-            rooms: getActiveRooms(clientInfo)
+            rooms: getActiveGame(clientInfo)
         });
     });
 
@@ -36,7 +43,7 @@ io.on('connection', (socket) => {
         }
     });
 
-    // Listen to the event that a new user join a chat room, "req" object is 
+    // Listen to the event that a new user join a game, "req" object is 
     // in the format of {name, room}
     socket.on('joinRoom', (req) => {
         clientInfo[socket.id] = req;
@@ -50,9 +57,6 @@ io.on('connection', (socket) => {
 
     // Listen to the event when a new message incomming
     socket.on('message', (message) => {
-
-        console.log(`Message received: ${message.text}`);
-
         // add timestamp to the message
         message.timestamp = moment().valueOf();
         // "io.emit" will send the message to everybody including the sender
@@ -62,18 +66,18 @@ io.on('connection', (socket) => {
         // socket.broadcast.emit('message', message);
     });
 
-    // Trigger message
-    socket.emit('message', {
-        text: 'Welcome to the chat app!',
-        name: 'System',
-        timestamp: moment().valueOf()
+    // Relay the incomming chess move data to the other player
+    socket.on('chessMove', (req) => {
+        if (req.source && req.target) {
+            socket.broadcast.to(clientInfo[socket.id].room).emit('chessMove', req);
+        }
     });
 });
 
 /**
- * The function returns the room that has been created (has user joined) 
+ * The function returns the game that has been created (has user joined) 
  */
-function getActiveRooms(clientArray) {
+function getActiveGame(clientArray) {
     let localArray = clientArray;
     let roomSet = new Set();
     Object.keys(localArray).forEach((socketId) => {

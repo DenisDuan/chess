@@ -3,7 +3,6 @@
  var room = getQueryVariable('room') || 'Room';
 
  // Set up the room name
- console.log(name + ' wants to join the ' + room);
  $('h1.room-title').text(room);
 
  // Trigger the 'connet' event that informs the server that user connected
@@ -21,17 +20,15 @@
      var messagesElem = $('.messages');
      var messageElem = $('<li class="list-group-item"></li>')
 
-     console.group('New message:');
-     console.log(message.text);
-
      // Adds the new incoming message to the page
      messageElem.append('<p><strong>' + message.name + ' ' +
          momentTimestamp.local().format('h:mm:ss a') + ': </strong></p>');
      messageElem.append('<p>' + message.text + '</p>');
      messagesElem.append(messageElem);
 
-     var wtf = $('.pre-scrollable');
-     wtf.scrollTop(wtf[0].scrollHeight);
+     // Move the scrollable panel to the bottom to show latest message
+     var scrollablePanel = $('.pre-scrollable');
+     scrollablePanel.scrollTop(scrollablePanel[0].scrollHeight);
  })
 
  //Handles submitting new message
