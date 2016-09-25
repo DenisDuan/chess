@@ -47,3 +47,6 @@
      // Clean up the text field after commit
      inputElemObj.val('');
  });
+
+ // Initialize the chess board
+ var board1 = ChessBoard('board1', 'start');

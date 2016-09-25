@@ -6,12 +6,14 @@
     <title>Socket.io Chat App</title>
     <link rel="stylesheet" href="./css/bootstrap.min.css">
     <link rel="stylesheet" href="./css/styles.css">
+    <link rel="stylesheet" href="./css/chessboard-0.3.0.min.css">
 </head>
 
 <body>
     <div class="container">
         <div class="row">
-            <div class="col-md-6 col-md-offset-3 well">
+            <div class="col-md-4 col-md-offset-1 well">
+                
                 <a href="/index.html">Change Setting</a>
                 <h1 class="room-title"></h1>
                 <div class="pre-scrollable">
@@ -33,6 +35,11 @@
                     </div>
                 </form>
             </div>
+            <div class="col-md-5 col-md-offset-1">
+                <div class="vertical-center">
+                <div id="board1" style="width: 400px"></div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -40,6 +47,7 @@
     <script src="/js/socket.io-1.4.5.js"></script>
     <script src="/js/moment.js"></script>
     <script src="/js/query-params.js"></script>
+    <script src="/js/chessboard-0.3.0.min.js"></script>
     <script src="/js/chat.js"></script>
 </body>
 
